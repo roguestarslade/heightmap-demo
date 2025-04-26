@@ -39,21 +39,35 @@ async function main() {
   const weatherZoomSlider = document.getElementById('weatherZoomSlider');
 
   const setupMinMaxInput = (sliderId, minInputId, maxInputId) => {
-    const slider = document.getElementById(sliderId);
-    const minInput = document.getElementById(minInputId);
-    const maxInput = document.getElementById(maxInputId);
+	const slider = document.getElementById(sliderId);
+	const minInput = document.getElementById(minInputId);
+	const maxInput = document.getElementById(maxInputId);
 
-    minInput.addEventListener('change', () => {
-      const minValue = parseFloat(minInput.value);
-      if (!isNaN(minValue)) slider.min = minValue;
-    });
+	minInput.addEventListener('change', () => {
+	const minValue = parseFloat(minInput.value);
+		if (!isNaN(minValue)) {
+		  slider.min = minValue;
 
-    maxInput.addEventListener('change', () => {
-      const maxValue = parseFloat(maxInput.value);
-      if (!isNaN(maxValue)) slider.max = maxValue;
-    });
+		  if (parseFloat(slider.value) < minValue) {
+			slider.value = minValue;
+		  }
+		}
+	});
+
+	maxInput.addEventListener('change', () => {
+	const maxValue = parseFloat(maxInput.value);
+		if (!isNaN(maxValue)) {
+		  slider.max = maxValue;
+
+		  if (parseFloat(slider.value) > maxValue) {
+			slider.value = maxValue;
+		  }
+		}
+	});
   };
 
+  setupMinMaxInput('resizeSlider', 'resizeSliderMinInput', 'resizeSliderMaxInput');
+  setupMinMaxInput('heightmapSlider', 'heightmapMinInput', 'heightmapMaxInput');
   setupMinMaxInput('gridResolutionSlider', 'gridResolutionMinInput', 'gridResolutionMaxInput');
   setupMinMaxInput('weatherZoomSlider', 'weatherZoomMinInput', 'weatherZoomMaxInput');
 
