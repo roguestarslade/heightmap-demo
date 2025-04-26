@@ -5,7 +5,7 @@ export class Joystick {
     this.center = { x: 60, y: 60 };
     this.radius = 60;
     this.value = { x: 0, y: 0 };
-    this.strength = 0.0; // 🔥 NEW - strength from center
+    this.strength = 0.0;
 
     this.isDragging = false;
 
@@ -27,8 +27,6 @@ export class Joystick {
 
   endDrag() {
     this.isDragging = false;
-    // Do NOT reset stick position
-    // Do NOT reset value or strength
   }
 
   updateStick(e) {
@@ -47,7 +45,7 @@ export class Joystick {
     this.value.x = x / this.radius;
     this.value.y = y / this.radius;
 
-    this.strength = dist / this.radius; // 🔥 NEW: normalized distance (0 to 1)
+    this.strength = dist / this.radius;
   }
 
   getValue() {

@@ -32,12 +32,7 @@ async function main() {
   ]), gl.STATIC_DRAW);
 
   const weatherRT = new RenderTarget(gl, 512, 512);
-
-  const resizeSlider = document.getElementById('resizeSlider');
-  const heightmapSlider = document.getElementById('heightmapSlider');
-  const gridResolutionSlider = document.getElementById('gridResolutionSlider');
-  const weatherZoomSlider = document.getElementById('weatherZoomSlider');
-
+    
   const setupMinMaxInput = (sliderId, minInputId, maxInputId) => {
 	const slider = document.getElementById(sliderId);
 	const minInput = document.getElementById(minInputId);
@@ -66,13 +61,17 @@ async function main() {
 	});
   };
 
+  const resizeSlider = document.getElementById('resizeSlider');
+  const heightmapSlider = document.getElementById('heightmapSlider');
+  const gridResolutionSlider = document.getElementById('gridResolutionSlider');
+  const weatherZoomSlider = document.getElementById('weatherZoomSlider');
+
   setupMinMaxInput('resizeSlider', 'resizeSliderMinInput', 'resizeSliderMaxInput');
   setupMinMaxInput('heightmapSlider', 'heightmapMinInput', 'heightmapMaxInput');
   setupMinMaxInput('gridResolutionSlider', 'gridResolutionMinInput', 'gridResolutionMaxInput');
   setupMinMaxInput('weatherZoomSlider', 'weatherZoomMinInput', 'weatherZoomMaxInput');
 
   let mesh;
-
   function rebuildMesh() {
     const resolution = parseInt(gridResolutionSlider.value);
     const { positions, indices } = createGrid(resolution);
@@ -80,7 +79,6 @@ async function main() {
   }
 
   gridResolutionSlider.addEventListener('input', rebuildMesh);
-
   rebuildMesh();
 
   const squareUniforms = {
@@ -98,6 +96,7 @@ async function main() {
 	u_windDirection: weatherProgram.getUniform('u_windDirection')
   };
 
+  //pass all grid values here, to manipulate vertex shaders.
   const squarePosAttrib = squareProgram.getAttrib('a_position');
   const weatherPosAttrib = weatherProgram.getAttrib('a_position');
 
@@ -106,7 +105,7 @@ async function main() {
     const elapsed = now - (startTime * 0.001);
     renderer.resize();
 
-    // Render weather into RTT
+    //render weather into RTT
     weatherRT.bind();
     gl.viewport(0, 0, 512, 512);
 
@@ -131,7 +130,7 @@ async function main() {
 
     weatherRT.unbind();
 
-    // Render main scene
+    //render main scene
     gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
     renderer.clear();
 

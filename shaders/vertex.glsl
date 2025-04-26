@@ -13,18 +13,18 @@ out vec2 v_uv;
 void main() {
   vec2 uv = a_position * 0.5 + 0.5;
 
-  // Sample heightmap
+  //grab heightmap values from weather/noise texture
   float height = texture(u_heightmap, uv).r;
 
-  // Start with 2D position, add height displacement on Z
+  //start with 2D position, add height displacement on Z
   vec3 pos = vec3(a_position, 0.0);
   pos.z += height * u_heightScale;
 
-  // Camera Bug Here. This sucked.
-  // CENTER the mesh: shift downward by half of the max height
+  //camera Bug Here. This sucked.
+  //CENTER the mesh: shift downward by half of the max height
   pos.z -= 0.5 * u_heightScale;
 
-  // Apply pitch rotation (around X axis)
+  //apply pitch rotation (around X axis)
   float pitch = u_rotation.x;
   mat3 pitchMatrix = mat3(
     1.0, 0.0,      0.0,
@@ -32,7 +32,7 @@ void main() {
     0.0, sin(pitch),  cos(pitch)
   );
 
-  // Apply yaw rotation (around Y axis)
+  //apply yaw rotation (around Y axis)
   float yaw = u_rotation.y;
   mat3 yawMatrix = mat3(
     cos(yaw), 0.0, sin(yaw),
